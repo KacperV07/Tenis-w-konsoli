@@ -1,26 +1,32 @@
 #include <iostream>
 using namespace std;
-    int main(){
-        cout << "        Pole przeciwnika" << "\n";
-        cout << "      ---------------------" << "\n";
-        cout << "      |   |     |     |   |" << "\n";
-        cout << "      |   |  1  |  2  |   |" << "\n";
-        cout << "      |   |     |     |   |" << "\n";
-        cout << "      | 5 |-----|-----| 6 |" << "\n";
-        cout << "      |   |     |     |   |" << "\n";
-        cout << "      |   |  3  |  4  |   |" << "\n";
-        cout << "      |   |     |     |   |" << "\n";
-        cout << "---------------------------------" << "\n";
-        cout << "      |   |     |     |   |" << "\n";
-        cout << "      |   |  1  |  2  |   |" << "\n";
-        cout << "      |   |     |     |   |" << "\n";
-        cout << "      | 5 |-----|-----| 6 |" << "\n";
-        cout << "      |   |     |     |   |" << "\n";
-        cout << "      |   |  3  |  4  |   |" << "\n";
-        cout << "      |   |     |     |   |" << "\n";
-        cout << "      ---------------------" << "\n";
-        cout << "           Twoje pole" << "\n";
 
+    void displayGrid() {
+    std::cout << "        Pole przeciwnika" << "\n";
+    std::cout << "      ---------------------" << "\n";
+    std::cout << "      |   |     |     |   |" << "\n";
+    std::cout << "      |   |  1  |  2  |   |" << "\n";
+    std::cout << "      |   |     |     |   |" << "\n";
+    std::cout << "      | 5 |-----|-----| 6 |" << "\n";
+    std::cout << "      |   |     |     |   |" << "\n";
+    std::cout << "      |   |  3  |  4  |   |" << "\n";
+    std::cout << "      |   |     |     |   |" << "\n";
+    std::cout << "---------------------------------" << "\n";
+    std::cout << "      |   |     |     |   |" << "\n";
+    std::cout << "      |   |  1  |  2  |   |" << "\n";
+    std::cout << "      |   |     |     |   |" << "\n";
+    std::cout << "      | 5 |-----|-----| 6 |" << "\n";
+    std::cout << "      |   |     |     |   |" << "\n";
+    std::cout << "      |   |  3  |  4  |   |" << "\n";
+    std::cout << "      |   |     |     |   |" << "\n";
+    std::cout << "      ---------------------" << "\n";
+    std::cout << "           Twoje pole" << "\n";
+}
+
+    int main(){
+
+	displayGrid();
+	
         int pole = 0;
 	while(pole <= 0 || pole >= 7){
 		cout<<"Wybierz pole jakie chcesz zaatakować (1-6)"<<endl;
