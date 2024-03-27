@@ -29,9 +29,9 @@ using namespace std;
 				GetpointForG1Text = "Przeciwnik wybronił się przed Twoim atakiem nie zdobywasz punktu :(";
 			}
 			if(GetpointForG2 == true){
-				GetpointForG2Text = "Zdobyłeś punkt! :) G2";
+				GetpointForG2Text = "Przeciwnik zdobywa punkt! :(";
 			}else{
-				GetpointForG2Text = "Przeciwnik wybronił się przed Twoim atakiem nie zdobywasz punktu :( G2";
+				GetpointForG2Text = "Wybroniłeś się przed atakiem :) ";
 			}
 			return "LICZBY"+ to_string(AtkG1)+"A1" + to_string(AtkG2)+"A2" + to_string(DefG1)+"D1"+to_string(DefG2)+"D2" +" | "+ GetpointForG1Text + " | " + GetpointForG2Text;
 		}
@@ -148,7 +148,7 @@ using namespace std;
 	wGTP.AtkG1 = fieldAtack;
 	wGTP.AtkG2 = AtkRand;
 	wGTP.DefG1 = fieldDefend;
-	wGTP.DefG2 = DefRand;
+	wGTP.DefG2 = DefRand;	
 	wGTP.whoWin();
 	cout<<endl<<endl<<wGTP.information();
 
