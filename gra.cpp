@@ -6,6 +6,7 @@
 
 using namespace std;
 	bool GetpointForG1 = false,GetpointForG2 = false;
+	int pointsG1 = 0, pointsG2 = 0;
 	class whoGetThePoint{
 		public:
 		int DefG1 = 0, DefG2 = 0,AtkG1 = 0,AtkG2 = 0;
@@ -25,15 +26,23 @@ using namespace std;
 			string GetpointForG1Text="",GetpointForG2Text="";
 			if(GetpointForG1 == true){
 				GetpointForG1Text = "Zdobyłeś punkt! :)";
+				pointsG1++;
 			}else{
 				GetpointForG1Text = "Przeciwnik wybronił się przed Twoim atakiem nie zdobywasz punktu :(";
 			}
 			if(GetpointForG2 == true){
 				GetpointForG2Text = "Przeciwnik zdobywa punkt! :(";
+				pointsG2++;
 			}else{
 				GetpointForG2Text = "Wybroniłeś się przed atakiem :) ";
 			}
-			return "LICZBY"+ to_string(AtkG1)+"A1" + to_string(AtkG2)+"A2" + to_string(DefG1)+"D1"+to_string(DefG2)+"D2" +" | "+ GetpointForG1Text + " | " + GetpointForG2Text;
+			return GetpointForG1Text + " oraz " + GetpointForG2Text;
+		}
+		string result(){
+			
+			string result = "";
+			result = to_string(pointsG1)+":"+to_string(pointsG2);
+			return result;
 		}
 
 
@@ -118,41 +127,47 @@ using namespace std;
     int main(){
 	whoGetThePoint wGTP;
 	// NA RAZIE TYLKO GRA Z BOTEM!
+		while (pointsG1 < 4 && pointsG2 < 4)
+		{
+			
 		
-	displayGrid();
-	// ATACK
-	srand(time(NULL));
-        int fieldAtack = 0;
-	while(fieldAtack <= 0 || fieldAtack >= 7){
-		cout<<"Wybierz pole jakie chcesz zaatakować (1-6) ";
-		cin>>fieldAtack;
-		cout<<endl;
-	}	
-	atack(fieldAtack);
-        
-   
-   // DEFEND
-    int fieldDefend = 0;
-	displayGrid();
-	while(fieldDefend <= 0 || fieldDefend >= 7){
-		cout<<"Wybierz pole jakie chcesz obronić (1-6) ";
-		cin>>fieldDefend;
-		cout<<endl;
-	}
-	defend(fieldDefend);
-	// DRAWING
-	int DefRand = rand()%6+1;
-	int AtkRand = rand()%6+1;
-	cout<<"Twój Przeciwnik obronił pole: "<<DefRand<<endl<<"Twój Przeciwnik zaatakował pole:  "<<AtkRand;
-	// Send to class wGTP (whoGetThePoint)
-	wGTP.AtkG1 = fieldAtack;
-	wGTP.AtkG2 = AtkRand;
-	wGTP.DefG1 = fieldDefend;
-	wGTP.DefG2 = DefRand;	
-	wGTP.whoWin();
-	cout<<endl<<endl<<wGTP.information();
+			
+		displayGrid();
+		// ATACK
+		srand(time(NULL));
+			int fieldAtack = 0;
+		while(fieldAtack <= 0 || fieldAtack >= 7){
+			cout<<"Wybierz pole jakie chcesz zaatakować (1-6) ";
+			cin>>fieldAtack;
+			cout<<endl;
+		}	
+		atack(fieldAtack);
+			
+	
+	// DEFEND
+		int fieldDefend = 0;
+		displayGrid();
+		while(fieldDefend <= 0 || fieldDefend >= 7){
+			cout<<"Wybierz pole jakie chcesz obronić (1-6) ";
+			cin>>fieldDefend;
+			cout<<endl;
+		}
+		defend(fieldDefend);
+		// DRAWING
+		int DefRand = rand()%6+1;
+		int AtkRand = rand()%6+1;
+		cout<<"Twój Przeciwnik obronił pole: "<<DefRand<<endl<<"Twój Przeciwnik zaatakował pole:  "<<AtkRand;
+		// Send to class wGTP (whoGetThePoint)
+		wGTP.AtkG1 = fieldAtack;
+		wGTP.AtkG2 = AtkRand;
+		wGTP.DefG1 = fieldDefend;
+		wGTP.DefG2 = DefRand;	
+		wGTP.whoWin();
+		cout<<endl<<endl<<wGTP.information()<<endl<<endl<<"Punktacja wygląda następująco: "<<wGTP.result();
+		
 
 
+		}
 	return 0;
-    }
+	}
 	
