@@ -12,9 +12,9 @@ using namespace std;
 		int DefG1 = 0, DefG2 = 0,AtkG1 = 0,AtkG2 = 0;
 		
 		void endOfGem(){	
-			endOfTheGem == false;	
-			gemForG1 == false;
-			gemForG2 == false;	
+			endOfTheGem = false;	
+			gemForG1 = false;
+			gemForG2 = false;	
 			if(pointsG1 == 4 && pointsG2 < 3){
 				gemsG1++;
 				pointsG1 = 0;
@@ -214,7 +214,7 @@ using namespace std;
 		while (stillPlaying == true)
 		{
 			whoGetThePoint wGTP;
-		
+			endOfTheGem = false;
 			
 		displayGrid();
 		// ATACK
@@ -249,7 +249,9 @@ using namespace std;
 		
 		if(endOfTheGem == false){
 			wGTP.whoWin();
-		}	
+		}	else{
+			cout<<"endOFTheGem == false!";
+		}
 		wGTP.endOfGem();	
 		cout<<endl<<endl<<wGTP.information()<<endl<<endl<<"Punktacja wygląda następująco: "<<wGTP.result();
 		
