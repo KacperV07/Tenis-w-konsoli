@@ -5,52 +5,136 @@
 #include <string>
 
 using namespace std;
-	bool GetpointForG1 = false,GetpointForG2 = false;
-	int pointsG1 = 0, pointsG2 = 0;
+	bool getPointForG1 = false,getPointForG2 = false,stillPlaying = true,withoutPoints=false,endOfTheGem=false,gemForG1=false,gemForG2=false;
+	int pointsG1 = 0, pointsG2 = 0,gemsG1=0,gemsG2=0;
 	class whoGetThePoint{
 		public:
 		int DefG1 = 0, DefG2 = 0,AtkG1 = 0,AtkG2 = 0;
 		
-		
+		void endOfGem(){	
+			endOfTheGem == false;	
+			gemForG1 == false;
+			gemForG2 == false;	
+			if(pointsG1 == 4 && pointsG2 < 3){
+				gemsG1++;
+				pointsG1 = 0;
+				pointsG2 = 0;
+				endOfTheGem = true;
+			}			
+			if(pointsG2 == 4 && pointsG1 < 3){
+				gemsG2++;
+				pointsG1 = 0;
+				pointsG2 = 0;
+				endOfTheGem = true;
+			}
+			if(pointsG1 >= 5){
+				gemsG1++;
+				pointsG1 = 0;
+				pointsG2 = 0;
+				endOfTheGem = true;
+			}			
+			if(pointsG2 >= 5){
+				gemsG2++;
+				pointsG1 = 0;
+				pointsG2 = 0;
+				endOfTheGem = true;
+			}			
+		}
+
+
+
 		// Def1 -> atk2, Def2 -> Atk1,
 		void whoWin(){
+			withoutPoints = false;
+			getPointForG1 = false;	
+			getPointForG2 = false;				
+
+						
+				if(AtkG2 != DefG1){
+					getPointForG2 = true;						
+				}
+				if(AtkG1 != DefG2){
+					getPointForG1 = true;					
+				}	
+				if((pointsG1 == 3) && (pointsG2 == 3) && (getPointForG1 == true) && (getPointForG2 == true)){
+					withoutPoints = true;
+				}
+				else{
+					if((pointsG1 == 4) && (pointsG2 == 3) && (getPointForG1 == false) && (getPointForG2 == true)){
+						pointsG1--;
+						pointsG2++;
+					}
+					else{						
+						if((pointsG1 == 3) && (pointsG2 == 4) && (getPointForG1 == true) && (getPointForG2 == false)){
+						pointsG1++;
+						pointsG2 = pointsG1 - 1;
+						}else{
+							if(getPointForG1 == true){
+								pointsG1++;
+							}
+							if(getPointForG2 == true){
+								pointsG2++;
+							}
+						}
+					}
+
+				}
 			
-			if(AtkG1 != DefG2){
-				GetpointForG1 = true;				
-			}	
-			if(AtkG2 != DefG1){
-				GetpointForG2 = true;				
-			}
+				
+				
+			
+		
+
+
 		}
+
+			
 		string information(){
-			string GetpointForG1Text="",GetpointForG2Text="";
-			if(GetpointForG1 == true){
-				GetpointForG1Text = "Zdobyłeś punkt! :)";
-				pointsG1++;
+			string getPointForG1Text="",getPointForG2Text="";
+			
+			if(withoutPoints == true){
+				getPointForG1 = "Bez punktu";
+				getPointForG2 = "Bez punktu (nie może być wyniku AD:AD)";
 			}else{
-				GetpointForG1Text = "Przeciwnik wybronił się przed Twoim atakiem nie zdobywasz punktu :(";
+				if(getPointForG1 == true){
+				getPointForG1Text = "Zdobywasz punkt!";			
+
+				}else{
+					getPointForG1Text = "Nie zdobywasz punktu!";
+				}
+				if(getPointForG2 == true){
+					getPointForG2Text = "Zdobywasz punkt!";			
+				
+				}else{
+					getPointForG2Text = "Nie zdobywasz punktu! ";
+				}
 			}
-			if(GetpointForG2 == true){
-				GetpointForG2Text = "Przeciwnik zdobywa punkt! :(";
-				pointsG2++;
-			}else{
-				GetpointForG2Text = "Wybroniłeś się przed atakiem :) ";
+			if (endOfTheGem == true)
+			{
+				if(gemForG1 == true){
+					getPointForG1Text = getPointForG1Text + " ZDOBYWASZ GEMA!";
+				}else{
+					getPointForG2Text = getPointForG2Text + " ZDOBYWASZ GEMA!";
+				}
 			}
-			return GetpointForG1Text + " oraz " + GetpointForG2Text;
-		}
+			return "Informacja dla Gracza 1: "+ getPointForG1Text + " Informacja dla Gracza 2: " + getPointForG2Text;
+		}		
+		
+		
+
+		
 		string result(){
 			
 			string result = "";
-			result = to_string(pointsG1)+":"+to_string(pointsG2);
-			return result;
+			result = to_string(pointsG1)+":"+to_string(pointsG2)+"		Zdobyte Gemy Gracz1:Gracz2 " + to_string(gemsG1) +":"+ to_string(gemsG2);
+			return result;	
+		
 		}
+		
 
 
 		
 	};
-
-
-
 
 
     void displayGrid() {
@@ -125,11 +209,11 @@ using namespace std;
 	}
 
     int main(){
-	whoGetThePoint wGTP;
+	
 	// NA RAZIE TYLKO GRA Z BOTEM!
-		while (pointsG1 < 4 && pointsG2 < 4)
+		while (stillPlaying == true)
 		{
-			
+			whoGetThePoint wGTP;
 		
 			
 		displayGrid();
@@ -162,7 +246,11 @@ using namespace std;
 		wGTP.AtkG2 = AtkRand;
 		wGTP.DefG1 = fieldDefend;
 		wGTP.DefG2 = DefRand;	
-		wGTP.whoWin();
+		
+		if(endOfTheGem == false){
+			wGTP.whoWin();
+		}	
+		wGTP.endOfGem();	
 		cout<<endl<<endl<<wGTP.information()<<endl<<endl<<"Punktacja wygląda następująco: "<<wGTP.result();
 		
 
