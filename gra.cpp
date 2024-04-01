@@ -217,7 +217,7 @@ using namespace std;
 		}while(tryb != 1 && tryb != 2);
 
 		if(tryb = 1){
-	// NA RAZIE TYLKO GRA Z BOTEM!
+		// Gra z botem
 		while (stillPlaying == true)
 		{
 			whoGetThePoint wGTP;
@@ -263,6 +263,7 @@ using namespace std;
 		cout<<endl<<endl<<wGTP.information()<<endl<<endl<<"Punktacja wygląda następująco: "<<wGTP.result();
 		}
 		}else{
+		// Gra z 2 graczem
 
 		}
 		return 0;
