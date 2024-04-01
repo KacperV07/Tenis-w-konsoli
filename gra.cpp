@@ -209,7 +209,14 @@ using namespace std;
 	}
 
     int main(){
-	
+
+		int tryb;
+		do{
+				cout << "Witaj, napisz 1 jeśli chcesz grać z botem lub 2 jeśli chcesz grać z drugim graczem";
+				cin >> tryb;
+		}while(tryb != 1 && tryb != 2);
+
+		if(tryb = 1){
 	// NA RAZIE TYLKO GRA Z BOTEM!
 		while (stillPlaying == true)
 		{
@@ -254,10 +261,10 @@ using namespace std;
 		}
 		wGTP.endOfGem();	
 		cout<<endl<<endl<<wGTP.information()<<endl<<endl<<"Punktacja wygląda następująco: "<<wGTP.result();
-		
-
+		}
+		}else{
 
 		}
-	return 0;
+		return 0;
 	}
 	
