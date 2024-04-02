@@ -6,10 +6,33 @@
 
 using namespace std;
 	bool getPointForG1 = false,getPointForG2 = false,stillPlaying = true,withoutPoints=false,endOfTheGem=false,gemForG1=false,gemForG2=false;
-	int pointsG1 = 0, pointsG2 = 0,gemsG1=0,gemsG2=0;
+	int pointsG1 = 0, pointsG2 = 0,gemsG1=0,gemsG2=0,fieldAtack = 0;;
+
 	class whoGetThePoint{
 		public:
 		int DefG1 = 0, DefG2 = 0,AtkG1 = 0,AtkG2 = 0;
+		
+		void probabilityOfAut(){
+			int probabilty = 0;
+			string aut = "Piłka wypadła na AUT!";
+			if(fieldAtack == 3 || fieldAtack == 4){				
+				//1,2,3,4,(5),6,7,8,9,10 (jak wypadnie 5 to AUT!) ,czyli 10% że wypadnie na AUT!
+				probabilty = rand()%10+1;
+				if(probabilty == 5){
+					fieldAtack = 0;
+					cout<<aut;
+				}
+			}
+			if(fieldAtack == 5 || fieldAtack == 6){				
+				//1,2,3,4 (jak wypadnie 4 to AUT) , czyli 25% że wypadnie AUT!
+				probabilty = rand()%4+1;
+				if(probabilty == 4){
+					fieldAtack = 0;
+					cout<<aut;
+				}
+			}
+		}	
+		
 		
 		void endOfGem(){	
 			endOfTheGem = false;	
@@ -49,11 +72,11 @@ using namespace std;
 			getPointForG1 = false;	
 			getPointForG2 = false;				
 
-						
-				if(AtkG2 != DefG1){
+				// jesli field attack == 0 to AUT		
+				if((AtkG2 != DefG1) ){
 					getPointForG2 = true;						
 				}
-				if(AtkG1 != DefG2){
+				if((AtkG1 != DefG2) && (fieldAtack !=0)){
 					getPointForG1 = true;					
 				}	
 				if((pointsG1 == 3) && (pointsG2 == 3) && (getPointForG1 == true) && (getPointForG2 == true)){
@@ -93,8 +116,8 @@ using namespace std;
 			string getPointForG1Text="",getPointForG2Text="";
 			
 			if(withoutPoints == true){
-				getPointForG1 = "Bez punktu";
-				getPointForG2 = "Bez punktu (nie może być wyniku AD:AD)";
+				getPointForG1Text = "Bez punktu";
+				getPointForG2Text = "Bez punktu (nie może być wyniku AD:AD)";
 			}else{
 				if(getPointForG1 == true){
 				getPointForG1Text = "Zdobywasz punkt!";			
@@ -124,9 +147,41 @@ using namespace std;
 
 		
 		string result(){
-			
+			string inGamePointG1= "",inGamePointG2="";
 			string result = "";
-			result = to_string(pointsG1)+":"+to_string(pointsG2)+"		Zdobyte Gemy Gracz1:Gracz2 " + to_string(gemsG1) +":"+ to_string(gemsG2);
+			//Dla G1
+			if(pointsG1 == 0){
+				inGamePointG1 = "0";
+			}
+			if(pointsG1 == 1){
+				inGamePointG1 = "15";
+			}
+			if(pointsG1 == 2){
+				inGamePointG1 = "30";
+			}
+			if(pointsG1 == 3){
+				inGamePointG1 = "40";
+			}
+			if(pointsG1 == 4){
+				inGamePointG1 = "AD";
+			}
+			// Dla G2
+			if(pointsG2 == 0){
+				inGamePointG2 = "0";
+			}
+			if(pointsG2 == 1){
+				inGamePointG2 = "15";
+			}
+			if(pointsG2 == 2){
+				inGamePointG2 = "30";
+			}
+			if(pointsG2 == 3){
+				inGamePointG2 = "40";
+			}
+			if(pointsG2 == 4){
+				inGamePointG2 = "AD";
+			}
+			result = inGamePointG1+":"+inGamePointG2+" | Zdobyte Gemy Gracz 1 " + to_string(gemsG1) +":"+ to_string(gemsG2)+" Gracz 2";
 			return result;	
 		
 		}
@@ -160,6 +215,8 @@ using namespace std;
 }
 	void atack(int field){
 		switch(field){
+		case 0:
+		cout<<"Nie trafiłeś piłka poleciała w AUT :/"<<endl;
 		case 1:
 		cout<<"Zaatakowałeś pole nr."<<field<<endl;
 		break;	
@@ -220,55 +277,66 @@ using namespace std;
 		}while(tryb != 1 && tryb != 2);
 
 		if(tryb == 1){
-		// Gra z botem
-		cout << "Wybrałeś gre z botem";
-		while (stillPlaying == true)
-		{
-			whoGetThePoint wGTP;
-			endOfTheGem = false;
-			
-		displayGrid();
-		// ATACK
-		srand(time(NULL));
-			int fieldAtack = 0;
-		while(fieldAtack <= 0 || fieldAtack >= 7){
-			cout<<"Wybierz pole jakie chcesz zaatakować (1-6) ";
-			cin>>fieldAtack;
-			cout<<endl;
-		}	
-		atack(fieldAtack);
-			
-	
-	// DEFEND
-		int fieldDefend = 0;
-		displayGrid();
-		while(fieldDefend <= 0 || fieldDefend >= 7){
-			cout<<"Wybierz pole jakie chcesz obronić (1-6) ";
-			cin>>fieldDefend;
-			cout<<endl;
-		}
-		defend(fieldDefend);
-		// DRAWING
-		int DefRand = rand()%6+1;
-		int AtkRand = rand()%6+1;
-		cout<<"Twój Przeciwnik obronił pole: "<<DefRand<<endl<<"Twój Przeciwnik zaatakował pole:  "<<AtkRand;
-		// Send to class wGTP (whoGetThePoint)
-		wGTP.AtkG1 = fieldAtack;
-		wGTP.AtkG2 = AtkRand;
-		wGTP.DefG1 = fieldDefend;
-		wGTP.DefG2 = DefRand;	
-		
-		if(endOfTheGem == false){
-			wGTP.whoWin();
-		}	else{
-			cout<<"endOFTheGem == false!";
-		}
-		wGTP.endOfGem();	
-		cout<<endl<<endl<<wGTP.information()<<endl<<endl<<"Punktacja wygląda następująco: "<<wGTP.result();
-		}
+			// Gra z botem
+			cout << "Wybrałeś gre z botem";
+			while (stillPlaying == true)
+			{
+				fieldAtack = 0;
+				whoGetThePoint wGTP;
+				endOfTheGem = false;
 
-
-		}else{
+					
+					
+				displayGrid();
+				// ATACK
+				srand(time(NULL));
+					
+				while(fieldAtack <= 0 || fieldAtack >= 7){
+					cout<<"Wybierz pole jakie chcesz zaatakować (1-6) ";
+					cin>>fieldAtack;
+					cout<<endl;
+				}
+				wGTP.probabilityOfAut();
+				atack(fieldAtack);
+					
+			
+			// DEFEND
+				int fieldDefend = 0;
+				displayGrid();
+				while(fieldDefend <= 0 || fieldDefend >= 7){
+					cout<<"Wybierz pole jakie chcesz obronić (1-6) ";
+					cin>>fieldDefend;
+					cout<<endl;
+				}
+				defend(fieldDefend);
+				// DRAWING
+				int DefRand = rand()%6+1;
+				int AtkRand = rand()%6+1;
+				cout<<"Twój Przeciwnik obronił pole: "<<DefRand<<endl<<"Twój Przeciwnik zaatakował pole:  "<<AtkRand;
+				// Send to class wGTP (whoGetThePoint)
+				wGTP.AtkG1 = fieldAtack;
+				wGTP.AtkG2 = AtkRand;
+				wGTP.DefG1 = fieldDefend;
+				wGTP.DefG2 = DefRand;	
+				
+				if(endOfTheGem == false){
+					wGTP.whoWin();
+				}	else{
+					//cout<<"endOFTheGem == false!";
+				}
+				wGTP.endOfGem();	
+				cout<<endl<<endl<<wGTP.information()<<endl<<"Punktacja wygląda następująco: "<<wGTP.result();
+					if(gemsG1 >= 3){
+						cout<<endl<<"Gracz 1 WYGRYWA!";
+						stillPlaying = false;
+					}
+					if(gemsG2 >= 3){
+						cout<<endl<<"Gracz 2 WYGRYWA!";
+						stillPlaying = false;
+					}
+			} // koniec while
+		}
+		else{
 		// Gra z 2 graczem
 		cout << "Wybrałeś gre z 2 graczem";
 		}
