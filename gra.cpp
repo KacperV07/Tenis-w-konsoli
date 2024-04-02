@@ -5,29 +5,28 @@
 #include <string>
 
 using namespace std;
-	bool getPointForG1 = false,getPointForG2 = false,stillPlaying = true,withoutPoints=false,endOfTheGem=false,gemForG1=false,gemForG2=false;
-	int pointsG1 = 0, pointsG2 = 0,gemsG1=0,gemsG2=0,fieldAtack = 0;;
-
+	bool getPointForG1 = false,getPointForG2 = false,stillPlaying = true,withoutPoints=false,endOfTheGem=false,gemForG1=false,gemForG2=false,isAut=false;
+	int pointsG1 = 0, pointsG2 = 0,gemsG1=0,gemsG2=0,fieldAtack = 0,DefRand =0,AtkRand=0;
 	class whoGetThePoint{
 		public:
 		int DefG1 = 0, DefG2 = 0,AtkG1 = 0,AtkG2 = 0;
 		
-		void probabilityOfAut(){
+		void probabilityOfAut(int field){
 			int probabilty = 0;
 			string aut = "Piłka wypadła na AUT!";
-			if(fieldAtack == 3 || fieldAtack == 4){				
+			if(field == 3 || field == 4){				
 				//1,2,3,4,(5),6,7,8,9,10 (jak wypadnie 5 to AUT!) ,czyli 10% że wypadnie na AUT!
 				probabilty = rand()%10+1;
 				if(probabilty == 5){
-					fieldAtack = 0;
+					isAut = true;
 					cout<<aut;
 				}
 			}
-			if(fieldAtack == 5 || fieldAtack == 6){				
+			if(field == 5 || field == 6){				
 				//1,2,3,4 (jak wypadnie 4 to AUT) , czyli 25% że wypadnie AUT!
 				probabilty = rand()%4+1;
 				if(probabilty == 4){
-					fieldAtack = 0;
+					isAut = true;
 					cout<<aut;
 				}
 			}
@@ -73,10 +72,10 @@ using namespace std;
 			getPointForG2 = false;				
 
 				// jesli field attack == 0 to AUT		
-				if((AtkG2 != DefG1) ){
+				if((AtkG2 != DefG1) && (AtkG2 !=0) ){
 					getPointForG2 = true;						
 				}
-				if((AtkG1 != DefG2) && (fieldAtack !=0)){
+				if((AtkG1 != DefG2) && (AtkG1 !=0)){
 					getPointForG1 = true;					
 				}	
 				if((pointsG1 == 3) && (pointsG2 == 3) && (getPointForG1 == true) && (getPointForG2 == true)){
@@ -140,7 +139,7 @@ using namespace std;
 					getPointForG2Text = getPointForG2Text + " ZDOBYWASZ GEMA!";
 				}
 			}
-			return "Informacja dla Gracza 1: "+ getPointForG1Text + " Informacja dla Gracza 2: " + getPointForG2Text;
+			return "Informacja dla Gracza 1: "+ getPointForG1Text + "\nInformacja dla Gracza 2: " + getPointForG2Text;
 		}		
 		
 		
@@ -181,7 +180,7 @@ using namespace std;
 			if(pointsG2 == 4){
 				inGamePointG2 = "AD";
 			}
-			result = inGamePointG1+":"+inGamePointG2+" | Zdobyte Gemy Gracz 1 " + to_string(gemsG1) +":"+ to_string(gemsG2)+" Gracz 2";
+			result = "Gracz 1   "+inGamePointG1+":"+inGamePointG2+"   Gracz 2"+"\nZdobyte Gemy Gracz 1 " + to_string(gemsG1) +":"+ to_string(gemsG2)+" Gracz 2";
 			return result;	
 		
 		}
@@ -266,7 +265,7 @@ using namespace std;
 	}
 
     int main(){
-
+		
 		int tryb;
 		do{
 			cout << "Witaj, wybierz tryb gry:\n";
@@ -281,14 +280,16 @@ using namespace std;
 			cout << "Wybrałeś gre z botem";
 			while (stillPlaying == true)
 			{
-				fieldAtack = 0;
+				
 				whoGetThePoint wGTP;
 				endOfTheGem = false;
+				isAut = false;
 
 					
 					
 				displayGrid();
 				// ATACK
+				fieldAtack = 0;
 				srand(time(NULL));
 					
 				while(fieldAtack <= 0 || fieldAtack >= 7){
@@ -296,12 +297,16 @@ using namespace std;
 					cin>>fieldAtack;
 					cout<<endl;
 				}
-				wGTP.probabilityOfAut();
+				wGTP.probabilityOfAut(fieldAtack);
+				if(isAut == true){
+					fieldAtack = 0;
+				}
 				atack(fieldAtack);
 					
 			
 			// DEFEND
 				int fieldDefend = 0;
+				
 				displayGrid();
 				while(fieldDefend <= 0 || fieldDefend >= 7){
 					cout<<"Wybierz pole jakie chcesz obronić (1-6) ";
@@ -310,9 +315,16 @@ using namespace std;
 				}
 				defend(fieldDefend);
 				// DRAWING
-				int DefRand = rand()%6+1;
-				int AtkRand = rand()%6+1;
-				cout<<"Twój Przeciwnik obronił pole: "<<DefRand<<endl<<"Twój Przeciwnik zaatakował pole:  "<<AtkRand;
+				isAut = false;				
+				DefRand = rand()%6+1;
+				AtkRand = rand()%6+1;
+				wGTP.probabilityOfAut(AtkRand);
+				if(isAut == false){
+				cout<<endl<<"Twój Przeciwnik zaatakował pole:  "<<AtkRand;
+				}else{
+					AtkRand =0;
+				}
+				cout<<"Twój Przeciwnik obronił pole: "<<DefRand;
 				// Send to class wGTP (whoGetThePoint)
 				wGTP.AtkG1 = fieldAtack;
 				wGTP.AtkG2 = AtkRand;
