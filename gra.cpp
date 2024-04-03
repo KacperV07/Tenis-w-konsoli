@@ -351,6 +351,73 @@ using namespace std;
 		else{
 		// Gra z 2 graczem
 		cout << "Wybrałeś gre z 2 graczem";
+		while (stillPlaying == true) {
+    		whoGetThePoint wGTP;
+    		endOfTheGem = false;
+    		isAut = false;
+
+		displayGrid();
+		// ATAK Gracza 1
+		fieldAtack = 0;
+		while(fieldAtack <= 0 || fieldAtack > 6) {
+		    cout << "Gracz 1: wybierz pole, które chcesz zaatakować (1-6): ";
+		    cin >> fieldAtack;
+		    cout << endl;
+		}
+		wGTP.probabilityOfAut(fieldAtack);
+		if(isAut == true) {
+		    fieldAtack = 0;
+		}
+		atack(fieldAtack);
+
+		// ATAK Gracza 2
+		int fieldAtackG2 = 0;
+		while(fieldAtackG2 <= 0 || fieldAtackG2 > 6) {
+	           cout << "Gracz 2: wybierz pole, które chcesz zaatakować (1-6): ";
+		   cin >> fieldAtackG2;
+		   cout << endl;
+		}
+		wGTP.probabilityOfAut(fieldAtackG2);
+		if(isAut == true) {
+		    fieldAtackG2 = 0;
+		}
+		atack(fieldAtackG2);
+
+		// OBRONA Gracza 1
+		int fieldDefendG1 = 0;
+		while(fieldDefendG1 <= 0 || fieldDefendG1 > 6) {
+		    cout << "Gracz 1: wybierz pole, które chcesz obronić (1-6): ";
+		    cin >> fieldDefendG1;
+		    cout << endl;
+		}
+		defend(fieldDefendG1);
+		
+		 // OBRONA Gracza 2
+		int fieldDefendG2 = 0;
+		while(fieldDefendG2 <= 0 || fieldDefendG2 > 6) {
+		    cout << "Gracz 2: wybierz pole, które chcesz obronić (1-6): ";
+		    cin >> fieldDefendG2;
+		    cout << endl;
+		}
+		defend(fieldDefendG2);
+		
+		// Aktualizacja stanu gry
+		wGTP.AtkG1 = fieldAtack;
+		wGTP.AtkG2 = fieldAtackG2;
+		wGTP.DefG1 = fieldDefendG1;
+		wGTP.DefG2 = fieldDefendG2;
+		
+		wGTP.whoWin();
+		wGTP.endOfGem();
+		cout << endl << endl << wGTP.information() << endl << "Punktacja wygląda następująco: " << wGTP.result();
+		if(gemsG1 >= 3) {
+		    cout << endl << "Gracz 1 WYGRYWA!";
+		    stillPlaying = false;
+		}
+		if(gemsG2 >= 3) {
+		    cout << endl << "Gracz 2 WYGRYWA!";
+		    stillPlaying = false;
+		}
 		}
 		return 0;
 	}
