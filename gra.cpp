@@ -133,7 +133,7 @@ public:
       }
     }
     return "Informacja dla Gracza 1: " + getPointForG1Text +
-           "\nInformacja dla BOT'a: " + getPointForG2Text;
+           "\nInformacja dla Gracza 2: " + getPointForG2Text;
   }
 
   string result() {
@@ -173,7 +173,7 @@ public:
     }
     result = "Gracz 1   " + inGamePointG1 + ":" + inGamePointG2 + "   Gracz 2" +
              "\nZdobyte Gemy Gracz 1 " + to_string(gemsG1) + ":" +
-             to_string(gemsG2) + " BOT";
+             to_string(gemsG2) + " Gracz 2";
     return result;
   }
 };
@@ -266,7 +266,9 @@ void defend(int field) {
     break;
   }
 }
-
+void clearScreen(){
+  cout << "\033[2J\033[1;1H";
+}
 int main() {
 
   int tryb;
@@ -359,10 +361,11 @@ int main() {
     // Gra z 2 graczem
     cout << "Wybrałeś gre z 2 graczem";
     while (stillPlaying == true) {
+      clearScreen();
       whoGetThePoint wGTP;
       endOfTheGem = false;
       isAut = false;
-      system("clear");
+
       displayGrid();
       // ATAK Gracza 1
       fieldAtack = 0;
@@ -377,8 +380,19 @@ int main() {
       }
       atack(fieldAtack);
 
+      // OBRONA Gracza 1
+
+      displayGrid();
+      int fieldDefendG1 = 0;
+      while (fieldDefendG1 <= 0 || fieldDefendG1 >= 7) {
+        cout << "Gracz 1: wybierz pole, które chcesz obronić (1-6): ";
+        cin >> fieldDefendG1;
+        cout << endl;
+      }
+      defend(fieldDefendG1);
+
       // ATAK Gracza 2
-      system("clear");
+      clearScreen();
       displayGrid();
       int fieldAtackG2 = 0;
       while (fieldAtackG2 <= 0 || fieldAtackG2 >= 7) {
@@ -392,19 +406,8 @@ int main() {
       }
       atack(fieldAtackG2);
 
-      // OBRONA Gracza 1
-      system("clear");
-      displayGrid();
-      int fieldDefendG1 = 0;
-      while (fieldDefendG1 <= 0 || fieldDefendG1 >= 7) {
-        cout << "Gracz 1: wybierz pole, które chcesz obronić (1-6): ";
-        cin >> fieldDefendG1;
-        cout << endl;
-      }
-      defend(fieldDefendG1);
-
       // OBRONA Gracza 2
-      system("clear");
+
       displayGrid();
       int fieldDefendG2 = 0;
       while (fieldDefendG2 <= 0 || fieldDefendG2 >= 7) {
@@ -414,27 +417,33 @@ int main() {
       }
       defend(fieldDefendG2);
 
-      // Aktualizacja stanu gry
+      // Przesłanie do klasy wGTP (whoGetThePoint)
       wGTP.AtkG1 = fieldAtack;
       wGTP.AtkG2 = fieldAtackG2;
       wGTP.DefG1 = fieldDefendG1;
       wGTP.DefG2 = fieldDefendG2;
-
-      wGTP.whoWin();
-      wGTP.endOfGem();
-      cout << endl
-           << endl
-           << wGTP.information() << endl
-           << "Punktacja wygląda następująco: " << wGTP.result();
-      if (gemsG1 >= 3) {
-        cout << endl << "Gracz 1 " << wygrana[congrats];
-        stillPlaying = false;
-      }
-      if (gemsG2 >= 3) {
-        cout << endl << "Gracz 2 " << wygrana[congrats];
-        stillPlaying = false;
+      int idzDalej = 0;
+      
+        wGTP.whoWin();
+        wGTP.endOfGem();
+        cout << endl
+             << endl
+             << wGTP.information() << endl
+             << "Punktacja wygląda następująco: " << wGTP.result();
+        if (gemsG1 >= 3) {
+          cout << endl << "Gracz 1 " << wygrana[congrats];
+          stillPlaying = false;
+        }
+        if (gemsG2 >= 3) {
+          cout << endl << "Gracz 2 " << wygrana[congrats];
+          stillPlaying = false;
+        }
+      cout << endl << endl << "Wpisz 1 aby kontynować!" << endl;
+      while (idzDalej == 0) {      
+        cin >> idzDalej;
       }
     }
+    
     return 0;
   }
 }
