@@ -10,7 +10,13 @@ bool getPointForG1 = false, getPointForG2 = false, stillPlaying = true,
      withoutPoints = false, endOfTheGem = false, gemForG1 = false,
      gemForG2 = false, isAut = false;
 int pointsG1 = 0, pointsG2 = 0, gemsG1 = 0, gemsG2 = 0, fieldAtack = 0,
-    DefRand = 0, AtkRand = 0;
+    DefRand = 0, AtkRand = 0,tryb = 0,numberOfPlayedMatches = 0;
+int congrats = rand() % 4;
+
+ string wygrana[] = {"Fantastyczny sukces, gratulacje!",
+                      "Wspaniałe zwycięstwo, gratulacje!",
+                      "Zasłużony triumf, brawo!", "Mistrzowska gra, szacunek!",
+                      "Królewskie zwycięstwo #1"};
 class whoGetThePoint {
 public:
   int DefG1 = 0, DefG2 = 0, AtkG1 = 0, AtkG2 = 0;
@@ -132,8 +138,14 @@ public:
         getPointForG2Text = getPointForG2Text + " ZDOBYWASZ GEMA!";
       }
     }
-    return "Informacja dla Gracza 1: " + getPointForG1Text +
+    if(tryb == 2){
+          return "Informacja dla Gracza 1: " + getPointForG1Text +
            "\nInformacja dla Gracza 2: " + getPointForG2Text;
+    }else{
+                return "Informacja dla Gracza 1: " + getPointForG1Text +
+           "\nInformacja dla BOT'a: " + getPointForG2Text;
+    }
+
   }
 
   string result() {
@@ -171,9 +183,16 @@ public:
     if (pointsG2 == 4) {
       inGamePointG2 = "AD";
     }
-    result = "Gracz 1   " + inGamePointG1 + ":" + inGamePointG2 + "   Gracz 2" +
+    if(tryb == 2){
+          result = "Gracz 1   " + inGamePointG1 + ":" + inGamePointG2 + "   Gracz 2" +
              "\nZdobyte Gemy Gracz 1 " + to_string(gemsG1) + ":" +
              to_string(gemsG2) + " Gracz 2";
+    }else{
+          result = "Gracz 1   " + inGamePointG1 + ":" + inGamePointG2 + "   BOT" +
+             "\nZdobyte Gemy Gracz 1 " + to_string(gemsG1) + ":" +
+             to_string(gemsG2) + " BOT";
+    }
+
     return result;
   }
 };
@@ -223,6 +242,7 @@ void atack(int field) {
   switch (field) {
   case 0:
     cout << " Nie trafiłeś piłka poleciała w AUT :/ " << endl;
+    break;
   case 1:
     cout << "Zaatakowałeś pole nr." << field << endl;
     break;
@@ -269,32 +289,10 @@ void defend(int field) {
 void clearScreen(){
   cout << "\033[2J\033[1;1H";
 }
-int main() {
-
-  int tryb;
-  do {
-    cout << "Witaj, wybierz tryb gry:\n";
-    cout << "1. Gra z botem\n";
-    cout << "2. Gra z drugim graczem\n";
-    cout << "Wybierz opcję (1 lub 2): ";
-    cin >> tryb;
-  } while (tryb != 1 && tryb != 2);
-
-  string wygrana[] = {"Fantastyczny sukces, gratuluję",
-                      "Wspaniałe zwycięstwo, gratulacje!",
-                      "Zasłużony triumf, brawo!", "Mistrzowska gra, szacunek!",
-                      "Królewskie zwycięstwo #1"};
-  int congrats = rand() % 4;
-
-  if (tryb == 1) {
-    // Gra z botem
-    cout << "Wybrałeś gre z botem";
-    while (stillPlaying == true) {
-
-      whoGetThePoint wGTP;
+void gameWithBot(){
+    whoGetThePoint wGTP;
       endOfTheGem = false;
-      isAut = false;
-
+      isAut = false;   
       displayGrid();
       // ATACK
       fieldAtack = 0;
@@ -350,13 +348,63 @@ int main() {
            << "Punktacja wygląda następująco: " << wGTP.result();
       if (gemsG1 >= 3) {
         cout << endl << "Gracz 1 " << wygrana[congrats];
-        stillPlaying = false;
+        if(tryb == 1){
+          stillPlaying = false;
+        }
+        if(tryb == 3){
+          
+          if(numberOfPlayedMatches == 3){
+            cout << endl << "Wygrywasz TURNIEJ! " << wygrana[congrats];
+            stillPlaying = false;
+          }else{
+            cout<<" Grasz Dalej w Turnieju!";
+            numberOfPlayedMatches++;
+            getPointForG1 = false; getPointForG2 = false; stillPlaying = true;
+            pointsG1 = 0; pointsG2 = 0; gemsG1 = 0; gemsG2 = 0;
+            gameWithBot();
+          }
+        }
+        
       }
       if (gemsG2 >= 3) {
         cout << endl << "Bot wygrywa!";
+        if(tryb == 3){
+          cout<<" Odpadasz z Turnieju :/";
+        }
         stillPlaying = false;
       }
-    } // koniec while
+}
+int main() {
+
+  tryb = 0;
+  do {
+    cout << "Witaj, wybierz tryb gry:\n";
+    cout << "1. Gra z botem\n";
+    cout << "2. Gra z drugim graczem\n";
+    cout << "3. Gra Turniejowa (z BOT'ami)\n";
+    cout << "Wybierz opcję (1,2 lub 3): ";
+    cin >> tryb;
+  } while ((tryb != 1) && (tryb != 2) && (tryb != 3));
+
+
+  if (tryb == 1 || tryb == 3) {
+    // Gra z botem
+    if(tryb == 1){
+      cout << "Wybrałeś gre z botem, Udanej rozgrywki!";     
+      while (stillPlaying == true) {
+      gameWithBot();
+      } // koniec while
+    }
+    if(tryb == 3){
+      cout << "Wybrałeś gre z Turniejową, Powodzenia!";
+      while (stillPlaying == true)
+      {
+        gameWithBot();
+      }
+      
+      
+    }
+
   } else {
     // Gra z 2 graczem
     cout << "Wybrałeś gre z 2 graczem";
