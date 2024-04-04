@@ -426,8 +426,6 @@ void gameWithPlayer(){
 }
 
 int main() {
-  //int mode = 0;
-  
   do{
     cout << "Witaj, wybierz tryb gry:" << "\n";
     cout << "1. Gra z botem" << "\n";
