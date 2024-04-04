@@ -377,12 +377,11 @@ int main() {
   else if(mode == 2){    
     cout << "Wybrałeś gre z 2 graczem";
     while (stillPlaying == true) {
-      
       whoGetThePoint wGTP;
       endOfTheGem = false;
       isAut = false;
       displayGrid();
-      // ATAK Gracza 1
+      //Atak gracza 1
       fieldAtack = 0;
       while (fieldAtack <= 0 || fieldAtack >= 7) {
         cout << "Gracz 1: wybierz pole, które chcesz zaatakować (1-6): ";
@@ -394,7 +393,7 @@ int main() {
         fieldAtack = 0;
       }
       atack(fieldAtack);
-      // OBRONA Gracza 1
+      //Obrona gracza 1
       displayGrid();
       int fieldDefendG1 = 0;
       while (fieldDefendG1 <= 0 || fieldDefendG1 >= 7) {
@@ -403,7 +402,7 @@ int main() {
         cout << endl;
       }
       defend(fieldDefendG1);
-      // ATAK Gracza 2
+      //Atak gracza 2
       clearScreen();
       displayGrid();
       int fieldAtackG2 = 0;
@@ -417,7 +416,7 @@ int main() {
         fieldAtackG2 = 0;
       }
       atack(fieldAtackG2);
-      // OBRONA Gracza 2
+      //Obrona gracza 2
       displayGrid();
       int fieldDefendG2 = 0;
       while (fieldDefendG2 <= 0 || fieldDefendG2 >= 7) {
@@ -426,7 +425,7 @@ int main() {
         cout << endl;
       }
       defend(fieldDefendG2);
-      // Przesłanie do klasy wGTP (whoGetThePoint)
+      //Przesłanie do klasy wGTP
       wGTP.AtkG1 = fieldAtack;
       wGTP.AtkG2 = fieldAtackG2;
       wGTP.DefG1 = fieldDefendG1;
