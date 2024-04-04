@@ -183,7 +183,7 @@ public:
   }
 };
 void clearScreen(){
-  cout << "\033[2J\033[1;1H";
+  cout << "\033[H\033[2J\033[3J";
 }
 void displayGrid() {
 
