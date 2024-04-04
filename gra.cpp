@@ -3,16 +3,13 @@
 #include <stdlib.h>
 #include <string>
 #include <time.h>
-
 using namespace std;
-
 bool getPointForG1 = false, getPointForG2 = false, stillPlaying = true,
      withoutPoints = false, endOfTheGem = false, gemForG1 = false,
      gemForG2 = false, isAut = false;
 int pointsG1 = 0, pointsG2 = 0, gemsG1 = 0, gemsG2 = 0, fieldAtack = 0,
     DefRand = 0, AtkRand = 0,tryb = 0,numberOfPlayedMatches = 0;
 int congrats = rand() % 4;
-
  string wygrana[] = {"Fantastyczny sukces, gratulacje!",
                       "Wspaniałe zwycięstwo, gratulacje!",
                       "Zasłużony triumf, brawo!", "Mistrzowska gra, szacunek!",
@@ -20,7 +17,6 @@ int congrats = rand() % 4;
 class whoGetThePoint {
 public:
   int DefG1 = 0, DefG2 = 0, AtkG1 = 0, AtkG2 = 0;
-
   void probabilityOfAut(int field) {
     int probabilty = 0;
     string aut = "Piłka wypadła na AUT!";
@@ -42,7 +38,6 @@ public:
       }
     }
   }
-
   void endOfGem() {
     endOfTheGem = false;
     gemForG1 = false;
@@ -72,13 +67,11 @@ public:
       endOfTheGem = true;
     }
   }
-
   // Def1 -> atk2, Def2 -> Atk1,
   void whoWin() {
     withoutPoints = false;
     getPointForG1 = false;
     getPointForG2 = false;
-
     // jesli field attack == 0 to AUT
     if ((AtkG2 != DefG1) && (AtkG2 != 0)) {
       getPointForG2 = true;
@@ -110,23 +103,19 @@ public:
       }
     }
   }
-
   string information() {
     string getPointForG1Text = "", getPointForG2Text = "";
-
     if (withoutPoints == true) {
       getPointForG1Text = "Bez punktu";
       getPointForG2Text = "Bez punktu (nie może być wyniku AD:AD)";
     } else {
       if (getPointForG1 == true) {
         getPointForG1Text = "Zdobywasz punkt!";
-
       } else {
         getPointForG1Text = "Nie zdobywasz punktu!";
       }
       if (getPointForG2 == true) {
         getPointForG2Text = "Zdobywasz punkt!";
-
       } else {
         getPointForG2Text = "Nie zdobywasz punktu! ";
       }
@@ -145,9 +134,7 @@ public:
                 return "Informacja dla Gracza 1: " + getPointForG1Text +
            "\nInformacja dla BOT'a: " + getPointForG2Text;
     }
-
   }
-
   string result() {
     string inGamePointG1 = "", inGamePointG2 = "";
     string result = "";
@@ -192,11 +179,9 @@ public:
              "\nZdobyte Gemy Gracz 1 " + to_string(gemsG1) + ":" +
              to_string(gemsG2) + " BOT";
     }
-
     return result;
   }
 };
-
 void displayGrid() {
   cout << endl
        << "        pole przeciwnika"
@@ -238,8 +223,8 @@ void displayGrid() {
   cout << "           Twoje pole"
        << "\n";
 }
-void print_trophy() {
-    cout << "   __________" << endl;
+void displayTrophy() {
+    cout << "     __________" << endl;
     cout << "  '._==_==_=_.'" << endl;
     cout << "   .-\\:      /-." << endl;
     cout << "  | (|:.     |) |" << endl;
@@ -275,7 +260,6 @@ void atack(int field) {
     break;
   }
 }
-
 void defend(int field) {
   switch (field) {
   case 1:
@@ -309,7 +293,6 @@ void gameWithBot(){
       // ATACK
       fieldAtack = 0;
       srand(time(NULL));
-
       while (fieldAtack <= 0 || fieldAtack >= 7) {
         cout << "Wybierz pole jakie chcesz zaatakować (1-6) ";
         cin >> fieldAtack;
@@ -320,10 +303,8 @@ void gameWithBot(){
         fieldAtack = 0;
       }
       atack(fieldAtack);
-
       // DEFEND
       int fieldDefend = 0;
-
       displayGrid();
       while (fieldDefend <= 0 || fieldDefend >= 7) {
         cout << "Wybierz pole jakie chcesz obronić (1-6) ";
@@ -347,7 +328,6 @@ void gameWithBot(){
       wGTP.AtkG2 = AtkRand;
       wGTP.DefG1 = fieldDefend;
       wGTP.DefG2 = DefRand;
-
       if (endOfTheGem == false) {
         wGTP.whoWin();
       } else {
@@ -364,9 +344,10 @@ void gameWithBot(){
           stillPlaying = false;
         }
         if(tryb == 3){
-          
+
           if(numberOfPlayedMatches == 3){
-            cout << endl << "Wygrywasz TURNIEJ! " << wygrana[congrats];
+            cout << endl << "Wygrywasz TURNIEJ! " << wygrana[congrats]<<endl;
+            displayTrophy();
             stillPlaying = false;
           }else{
             cout<<" Grasz Dalej w Turnieju!";
@@ -376,7 +357,7 @@ void gameWithBot(){
             gameWithBot();
           }
         }
-        
+
       }
       if (gemsG2 >= 3) {
         cout << endl << "Bot wygrywa!";
@@ -387,7 +368,6 @@ void gameWithBot(){
       }
 }
 int main() {
-
   tryb = 0;
   do {
     cout << "Witaj, wybierz tryb gry:\n";
@@ -397,8 +377,6 @@ int main() {
     cout << "Wybierz opcję (1,2 lub 3): ";
     cin >> tryb;
   } while ((tryb != 1) && (tryb != 2) && (tryb != 3));
-
-
   if (tryb == 1 || tryb == 3) {
     // Gra z botem
     if(tryb == 1){
@@ -412,12 +390,11 @@ int main() {
       while (stillPlaying == true)
       {
         gameWithBot();
-           
-      }
-      
-      
-    }
 
+      }
+
+
+    }
   } else {
     // Gra z 2 graczem
     cout << "Wybrałeś gre z 2 graczem";
@@ -426,7 +403,6 @@ int main() {
       whoGetThePoint wGTP;
       endOfTheGem = false;
       isAut = false;
-
       displayGrid();
       // ATAK Gracza 1
       fieldAtack = 0;
@@ -440,9 +416,7 @@ int main() {
         fieldAtack = 0;
       }
       atack(fieldAtack);
-
       // OBRONA Gracza 1
-
       displayGrid();
       int fieldDefendG1 = 0;
       while (fieldDefendG1 <= 0 || fieldDefendG1 >= 7) {
@@ -451,7 +425,6 @@ int main() {
         cout << endl;
       }
       defend(fieldDefendG1);
-
       // ATAK Gracza 2
       clearScreen();
       displayGrid();
@@ -466,9 +439,7 @@ int main() {
         fieldAtackG2 = 0;
       }
       atack(fieldAtackG2);
-
       // OBRONA Gracza 2
-
       displayGrid();
       int fieldDefendG2 = 0;
       while (fieldDefendG2 <= 0 || fieldDefendG2 >= 7) {
@@ -477,14 +448,13 @@ int main() {
         cout << endl;
       }
       defend(fieldDefendG2);
-
       // Przesłanie do klasy wGTP (whoGetThePoint)
       wGTP.AtkG1 = fieldAtack;
       wGTP.AtkG2 = fieldAtackG2;
       wGTP.DefG1 = fieldDefendG1;
       wGTP.DefG2 = fieldDefendG2;
       int idzDalej = 0;
-      
+
         wGTP.whoWin();
         wGTP.endOfGem();
         cout << endl
@@ -504,7 +474,7 @@ int main() {
         cin >> idzDalej;
       }
     }
-    
+
     return 0;
   }
 }
