@@ -325,25 +325,19 @@ void gameWithBot(){
         cout << endl << "Gracz 1 " << wygrana[congrats];
         if(mode == 1){
           stillPlaying = false;          
-        }else{
-          if(mode == 3){
-
+        }else if(mode == 3){          
           if(numberOfPlayedMatches == 3){
             cout << endl << "Wygrywasz TURNIEJ! " << wygrana[congrats]<<endl;
             displayTrophy();
             stillPlaying = false;
-          }else{
+          }else{            
             cout<<" Grasz Dalej w Turnieju!";
             numberOfPlayedMatches++;
             getPointForG1 = false; getPointForG2 = false; stillPlaying = true;
             pointsG1 = 0; pointsG2 = 0; gemsG1 = 0; gemsG2 = 0;
             gameWithBot();
-          }
-        }else{
-          stillPlaying = false;
-        }
-        }
-        
+          }        
+        }       
 
       }
       if (gemsG2 >= 3) {
@@ -432,7 +426,8 @@ void gameWithPlayer(){
 }
 
 int main() {
-  int mode = 0;
+  //int mode = 0;
+  
   do{
     cout << "Witaj, wybierz tryb gry:" << "\n";
     cout << "1. Gra z botem" << "\n";
