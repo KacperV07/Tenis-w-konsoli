@@ -1,4 +1,3 @@
-#include <cstdio>
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -6,35 +5,34 @@
 using namespace std;
 bool getPointForG1 = false, getPointForG2 = false, stillPlaying = true,
      withoutPoints = false, endOfTheGem = false, gemForG1 = false,
-     gemForG2 = false, isAut = false;
+     gemForG2 = false, isOut = false;
 int pointsG1 = 0, pointsG2 = 0, gemsG1 = 0, gemsG2 = 0, fieldAtack = 0,
-    DefRand = 0, AtkRand = 0,mode = 0,numberOfPlayedMatches = 1;
-int congrats = rand() % 4;
- string wygrana[] = {"Fantastyczny sukces, gratulacje!",
-                      "Wspaniałe zwycięstwo, gratulacje!",
-                      "Zasłużony triumf, brawo!", "Mistrzowska gra, szacunek!",
-                      "Królewskie zwycięstwo #1"};
+    DefRand = 0, AtkRand = 0,mode = 0,numberOfPlayedMatches = 1,congrats = rand() % 4;
+string wygrana[] = {"Fantastyczny sukces, gratulacje!",
+                    "Wspaniałe zwycięstwo, gratulacje!",
+                    "Zasłużony triumf, brawo!", "Mistrzowska gra, szacunek!",
+                    "Królewskie zwycięstwo #1"};
 class whoGetThePoint {
 public:
   int DefG1 = 0, DefG2 = 0, AtkG1 = 0, AtkG2 = 0;
-  void probabilityOfAut(int field) {
-    int probabilty = 0;
-    string aut = "Piłka wypadła na AUT!";
+  void propabilityOfAut(int field) {
+    int propability = 0;
+    string out = "Piłka wypadła na aut";
+    string net = "Piłka wpadła w siatkę!";
     if (field == 3 || field == 4) {
-      // 1,2,3,4,(5),6,7,8,9,10 (jak wypadnie 5 to AUT!) ,czyli 10% że wypadnie
-      // na AUT!
-      probabilty = rand() % 10 + 1;
-      if (probabilty == 5) {
-        isAut = true;
-        cout << aut;
+      // 1,2,3,4,(5),6,7,8,9,10 (jak wypadnie 5 to AUT!) ,czyli 10% że wpadnie w siatkę!
+      propability = rand() % 10 + 1;
+      if (propability == 5) {
+        isOut = true;
+        cout << net;
       }
     }
     if (field == 5 || field == 6) {
-      // 1,2,3,4 (jak wypadnie 4 to AUT) , czyli 25% że wypadnie AUT!
-      probabilty = rand() % 4 + 1;
-      if (probabilty == 4) {
-        isAut = true;
-        cout << aut;
+      // 1,2,3,(4) (jak wypadnie 4 to AUT) , czyli 25% że wypadnie AUT!
+      propability = rand() % 4 + 1;
+      if (propability == 4) {
+        isOut = true;
+        cout << out;
       }
     }
   }
@@ -182,10 +180,7 @@ public:
     return result;
   }
 };
-void clearScreen(){
-  cout << "\033[H\033[2J\033[3J";
-}
-void displayGrid() {
+void displaycourt() {
 
   cout << "\n" << "        pole przeciwnika" << "\n";
   cout << "      ---------------------" << "\n";
@@ -208,17 +203,22 @@ void displayGrid() {
   cout << "           Twoje pole" << "\n";
 }
 void displayTrophy() {
-    cout << "     __________" << "\n";
-    cout << "  '._==_==_=_.'" << "\n";
-    cout << "   .-\\:      /-." << "\n";
-    cout << "  | (|:.     |) |" << "\n";
-    cout << "   '-|:.     |-'" << "\n";
-    cout << "     \\::.    /" << "\n";
-    cout << "      '::. .'" << "\n";
-    cout << "        ) (" << "\n";
-    cout << "      _.' '._" << "\n";
-    cout << "     `\"\"\"\"\"\"\"`" << "\n";
+  cout << "     __________" << "\n";
+  cout << "  '._==_==_=_.'" << "\n";
+  cout << "   .-\\:      /-." << "\n";
+  cout << "  | (|:.     |) |" << "\n";
+  cout << "   '-|:.     |-'" << "\n";
+  cout << "     \\::.    /" << "\n";
+  cout << "      '::. .'" << "\n";
+  cout << "        ) (" << "\n";
+  cout << "      _.' '._" << "\n";
+  cout << "     `\"\"\"\"\"\"\"`" << "\n";
 }
+
+void clearScreen(){
+  cout << "\033[H\033[2J\033[3J";
+}
+
 void atack(int field) {
   switch (field) {
   case 0:
@@ -271,8 +271,8 @@ void gameWithBot(){
 
     whoGetThePoint wGTP;
       endOfTheGem = false;
-      isAut = false;   
-      displayGrid();
+      isOut = false;   
+      displaycourt();
       // ATACK
       fieldAtack = 0;
       srand(time(NULL));
@@ -281,14 +281,14 @@ void gameWithBot(){
         cin >> fieldAtack;
         cout << endl;
       }
-      wGTP.probabilityOfAut(fieldAtack);
-      if (isAut == true) {
+      wGTP.propabilityOfAut(fieldAtack);
+      if (isOut == true) {
         fieldAtack = 0;
       }
       atack(fieldAtack);
       // DEFEND
       int fieldDefend = 0;
-      displayGrid();
+      displaycourt();
       while (fieldDefend <= 0 || fieldDefend >= 7) {
         cout << "Wybierz pole jakie chcesz obronić (1-6) ";
         cin >> fieldDefend;
@@ -296,11 +296,11 @@ void gameWithBot(){
       }
       defend(fieldDefend);
       // DRAWING
-      isAut = false;
+      isOut = false;
       DefRand = rand() % 6 + 1;
       AtkRand = rand() % 6 + 1;
-      wGTP.probabilityOfAut(AtkRand);
-      if (isAut == false) {
+      wGTP.propabilityOfAut(AtkRand);
+      if (isOut == false) {
         cout << endl << "Twój Przeciwnik zaatakował pole:  " << AtkRand;
       } else {
         AtkRand = 0;
@@ -354,8 +354,85 @@ void gameWithBot(){
         stillPlaying = false;
       }
 }
+void gameWithPlayer(){
+  whoGetThePoint wGTP;
+  endOfTheGem = false;
+  isOut = false;
+  displaycourt();
+  //Atak gracza 1
+  fieldAtack = 0;
+  while (fieldAtack <= 0 || fieldAtack >= 7) {
+    cout << "Gracz 1: wybierz pole, które chcesz zaatakować (1-6): ";
+    cin >> fieldAtack;
+    cout << endl;
+  }
+  wGTP.propabilityOfAut(fieldAtack);
+  if (isOut == true) {
+    fieldAtack = 0;
+  }
+  atack(fieldAtack);
+  //Obrona gracza 1
+  displaycourt();
+  int fieldDefendG1 = 0;
+  while (fieldDefendG1 <= 0 || fieldDefendG1 >= 7) {
+    cout << "Gracz 1: wybierz pole, które chcesz obronić (1-6): ";
+    cin >> fieldDefendG1;
+    cout << endl;
+  }
+  defend(fieldDefendG1);
+  //Atak gracza 2
+  clearScreen();
+  displaycourt();
+  int fieldAtackG2 = 0;
+  while (fieldAtackG2 <= 0 || fieldAtackG2 >= 7) {
+    cout << "Gracz 2: wybierz pole, które chcesz zaatakować (1-6): ";
+    cin >> fieldAtackG2;
+    cout << endl;
+  }
+  wGTP.propabilityOfAut(fieldAtackG2);
+  if (isOut == true) {
+    fieldAtackG2 = 0;
+  }
+  atack(fieldAtackG2);
+  //Obrona gracza 2
+  displaycourt();
+  int fieldDefendG2 = 0;
+  while (fieldDefendG2 <= 0 || fieldDefendG2 >= 7) {
+    cout << "Gracz 2: wybierz pole, które chcesz obronić (1-6): ";
+    cin >> fieldDefendG2;
+    cout << endl;
+  }
+  defend(fieldDefendG2);
+  //Przesłanie do klasy wGTP
+  wGTP.AtkG1 = fieldAtack;
+  wGTP.AtkG2 = fieldAtackG2;
+  wGTP.DefG1 = fieldDefendG1;
+  wGTP.DefG2 = fieldDefendG2;
+  int idzDalej = 0;
+
+    wGTP.whoWin();
+    wGTP.endOfGem();
+    cout << endl
+         << endl
+         << wGTP.information() << endl
+         << "Punktacja wygląda następująco: " << wGTP.result();
+    if (gemsG1 >= 3) {
+      cout << endl << "Gracz 1 " << wygrana[congrats];
+      stillPlaying = false;
+    }
+    if (gemsG2 >= 3) {
+      cout << endl << "Gracz 2 " << wygrana[congrats];
+      stillPlaying = false;
+    }
+  cout << endl << endl << "Wpisz 1 aby kontynować!" << endl;
+  while (idzDalej == 0) {      
+    cin >> idzDalej;
+  }
+  clearScreen(); 
+}
+
 int main() {
-  mode = 0;
+  int mode = 0;
   do{
     cout << "Witaj, wybierz tryb gry:" << "\n";
     cout << "1. Gra z botem" << "\n";
@@ -363,101 +440,28 @@ int main() {
     cout << "3. Gra Turniejowa (z BOT'ami)" << "\n";
     cout << "Wybierz opcję (1,2 lub 3): " << "\n";
     cin >> mode;
-  } while ((mode != 1) && (mode != 2) && (mode != 3));
+  } while((mode != 1) && (mode != 2) && (mode != 3));
 	// Gra z botem(zwykła)
   if(mode == 1){
     cout << "Wybrałeś gre z botem, Udanej rozgrywki!";     
-    while (stillPlaying == true){
+    while(stillPlaying == true){
       gameWithBot();
     }
   }
 	// Gra z botem(mode turniejowy)
   else if(mode == 3){
     cout << "Wybrałeś gre Turniejową, Powodzenia!";
-    while (stillPlaying == true){
+    while(stillPlaying == true){
       gameWithBot();
     }
   }
   // Gra z 2 graczem
   else if(mode == 2){    
     cout << "Wybrałeś gre z 2 graczem";
-    while (stillPlaying == true) {
-      whoGetThePoint wGTP;
-      endOfTheGem = false;
-      isAut = false;
-      displayGrid();
-      //Atak gracza 1
-      fieldAtack = 0;
-      while (fieldAtack <= 0 || fieldAtack >= 7) {
-        cout << "Gracz 1: wybierz pole, które chcesz zaatakować (1-6): ";
-        cin >> fieldAtack;
-        cout << endl;
-      }
-      wGTP.probabilityOfAut(fieldAtack);
-      if (isAut == true) {
-        fieldAtack = 0;
-      }
-      atack(fieldAtack);
-      //Obrona gracza 1
-      displayGrid();
-      int fieldDefendG1 = 0;
-      while (fieldDefendG1 <= 0 || fieldDefendG1 >= 7) {
-        cout << "Gracz 1: wybierz pole, które chcesz obronić (1-6): ";
-        cin >> fieldDefendG1;
-        cout << endl;
-      }
-      defend(fieldDefendG1);
-      //Atak gracza 2
-      clearScreen();
-      displayGrid();
-      int fieldAtackG2 = 0;
-      while (fieldAtackG2 <= 0 || fieldAtackG2 >= 7) {
-        cout << "Gracz 2: wybierz pole, które chcesz zaatakować (1-6): ";
-        cin >> fieldAtackG2;
-        cout << endl;
-      }
-      wGTP.probabilityOfAut(fieldAtackG2);
-      if (isAut == true) {
-        fieldAtackG2 = 0;
-      }
-      atack(fieldAtackG2);
-      //Obrona gracza 2
-      displayGrid();
-      int fieldDefendG2 = 0;
-      while (fieldDefendG2 <= 0 || fieldDefendG2 >= 7) {
-        cout << "Gracz 2: wybierz pole, które chcesz obronić (1-6): ";
-        cin >> fieldDefendG2;
-        cout << endl;
-      }
-      defend(fieldDefendG2);
-      //Przesłanie do klasy wGTP
-      wGTP.AtkG1 = fieldAtack;
-      wGTP.AtkG2 = fieldAtackG2;
-      wGTP.DefG1 = fieldDefendG1;
-      wGTP.DefG2 = fieldDefendG2;
-      int idzDalej = 0;
-
-        wGTP.whoWin();
-        wGTP.endOfGem();
-        cout << endl
-             << endl
-             << wGTP.information() << endl
-             << "Punktacja wygląda następująco: " << wGTP.result();
-        if (gemsG1 >= 3) {
-          cout << endl << "Gracz 1 " << wygrana[congrats];
-          stillPlaying = false;
-        }
-        if (gemsG2 >= 3) {
-          cout << endl << "Gracz 2 " << wygrana[congrats];
-          stillPlaying = false;
-        }
-      cout << endl << endl << "Wpisz 1 aby kontynować!" << endl;
-      while (idzDalej == 0) {      
-        cin >> idzDalej;
-      }
-      clearScreen();
+    while(stillPlaying == true){
+      gameWithPlayer();
     }
-
-    return 0;
   }
+
+  return 0;
 }
