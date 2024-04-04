@@ -268,6 +268,7 @@ void defend(int field) {
 }
 
 void gameWithBot(){
+
     whoGetThePoint wGTP;
       endOfTheGem = false;
       isAut = false;   
@@ -323,9 +324,9 @@ void gameWithBot(){
       if (gemsG1 >= 3) {
         cout << endl << "Gracz 1 " << wygrana[congrats];
         if(mode == 1){
-          stillPlaying = false;
-        }
-        if(mode == 3){
+          stillPlaying = false;          
+        }else{
+          if(mode == 3){
 
           if(numberOfPlayedMatches == 3){
             cout << endl << "Wygrywasz TURNIEJ! " << wygrana[congrats]<<endl;
@@ -338,7 +339,11 @@ void gameWithBot(){
             pointsG1 = 0; pointsG2 = 0; gemsG1 = 0; gemsG2 = 0;
             gameWithBot();
           }
+        }else{
+          stillPlaying = false;
         }
+        }
+        
 
       }
       if (gemsG2 >= 3) {
@@ -350,7 +355,7 @@ void gameWithBot(){
       }
 }
 int main() {
-  int mode = 0;
+  mode = 0;
   do{
     cout << "Witaj, wybierz tryb gry:" << "\n";
     cout << "1. Gra z botem" << "\n";
