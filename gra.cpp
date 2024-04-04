@@ -238,6 +238,18 @@ void displayGrid() {
   cout << "           Twoje pole"
        << "\n";
 }
+void print_trophy() {
+    cout << "   __________" << endl;
+    cout << "  '._==_==_=_.'" << endl;
+    cout << "   .-\\:      /-." << endl;
+    cout << "  | (|:.     |) |" << endl;
+    cout << "   '-|:.     |-'" << endl;
+    cout << "     \\::.    /" << endl;
+    cout << "      '::. .'" << endl;
+    cout << "        ) (" << endl;
+    cout << "      _.' '._" << endl;
+    cout << "     `\"\"\"\"\"\"\"`" << endl;
+}
 void atack(int field) {
   switch (field) {
   case 0:
@@ -400,6 +412,7 @@ int main() {
       while (stillPlaying == true)
       {
         gameWithBot();
+           
       }
       
       
