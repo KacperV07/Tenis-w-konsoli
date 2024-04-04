@@ -186,9 +186,7 @@ void clearScreen(){
   cout << "\033[2J\033[1;1H";
 }
 void displayGrid() {
-  if(mode == 2){
-      clearScreen();
-  }
+
   cout << "\n" << "        pole przeciwnika" << "\n";
   cout << "      ---------------------" << "\n";
   cout << "      |   |     |     |   |" << "\n";
@@ -376,10 +374,10 @@ int main() {
     }
   }
   // Gra z 2 graczem
-  else if(mode == 2){
+  else if(mode == 2){    
     cout << "Wybrałeś gre z 2 graczem";
     while (stillPlaying == true) {
-      clearScreen();
+      
       whoGetThePoint wGTP;
       endOfTheGem = false;
       isAut = false;
@@ -453,6 +451,7 @@ int main() {
       while (idzDalej == 0) {      
         cin >> idzDalej;
       }
+      clearScreen();
     }
 
     return 0;
