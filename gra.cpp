@@ -189,57 +189,37 @@ void displayGrid() {
   if(tryb == 2){
       clearScreen();
   }
-  cout << endl
-       << "        pole przeciwnika"
-       << "\n";
-  cout << "      ---------------------"
-       << "\n";
-  cout << "      |   |     |     |   |"
-       << "\n";
-  cout << "      |   |  1  |  2  |   |"
-       << "\n";
-  cout << "      |   |     |     |   |"
-       << "\n";
-  cout << "      | 5 |-----|-----| 6 |"
-       << "\n";
-  cout << "      |   |     |     |   |"
-       << "\n";
-  cout << "      |   |  3  |  4  |   |"
-       << "\n";
-  cout << "      |   |     |     |   |"
-       << "\n";
-  cout << "---------------------------------"
-       << "\n";
-  cout << "      |   |     |     |   |"
-       << "\n";
-  cout << "      |   |  1  |  2  |   |"
-       << "\n";
-  cout << "      |   |     |     |   |"
-       << "\n";
-  cout << "      | 5 |-----|-----| 6 |"
-       << "\n";
-  cout << "      |   |     |     |   |"
-       << "\n";
-  cout << "      |   |  3  |  4  |   |"
-       << "\n";
-  cout << "      |   |     |     |   |"
-       << "\n";
-  cout << "      ---------------------"
-       << "\n";
-  cout << "           Twoje pole"
-       << "\n";
+  cout << "\n" << "        pole przeciwnika" << "\n";
+  cout << "      ---------------------" << "\n";
+  cout << "      |   |     |     |   |" << "\n";
+  cout << "      |   |  1  |  2  |   |" << "\n";
+  cout << "      |   |     |     |   |" << "\n";
+  cout << "      | 5 |-----|-----| 6 |" << "\n";
+  cout << "      |   |     |     |   |" << "\n";
+  cout << "      |   |  3  |  4  |   |" << "\n";
+  cout << "      |   |     |     |   |" << "\n";
+  cout << "---------------------------------" << "\n";
+  cout << "      |   |     |     |   |" << "\n";
+  cout << "      |   |  1  |  2  |   |" << "\n";
+  cout << "      |   |     |     |   |" << "\n";
+  cout << "      | 5 |-----|-----| 6 |" << "\n";
+  cout << "      |   |     |     |   |" << "\n";
+  cout << "      |   |  3  |  4  |   |" << "\n";
+  cout << "      |   |     |     |   |" << "\n";
+  cout << "      ---------------------" << "\n";
+  cout << "           Twoje pole" << "\n";
 }
 void displayTrophy() {
-    cout << "     __________" << endl;
-    cout << "  '._==_==_=_.'" << endl;
-    cout << "   .-\\:      /-." << endl;
-    cout << "  | (|:.     |) |" << endl;
-    cout << "   '-|:.     |-'" << endl;
-    cout << "     \\::.    /" << endl;
-    cout << "      '::. .'" << endl;
-    cout << "        ) (" << endl;
-    cout << "      _.' '._" << endl;
-    cout << "     `\"\"\"\"\"\"\"`" << endl;
+    cout << "     __________" << "\n";
+    cout << "  '._==_==_=_.'" << "\n";
+    cout << "   .-\\:      /-." << "\n";
+    cout << "  | (|:.     |) |" << "\n";
+    cout << "   '-|:.     |-'" << "\n";
+    cout << "     \\::.    /" << "\n";
+    cout << "      '::. .'" << "\n";
+    cout << "        ) (" << "\n";
+    cout << "      _.' '._" << "\n";
+    cout << "     `\"\"\"\"\"\"\"`" << "\n";
 }
 void atack(int field) {
   switch (field) {
@@ -372,35 +352,31 @@ void gameWithBot(){
       }
 }
 int main() {
-  tryb = 0;
-  do {
-    cout << "Witaj, wybierz tryb gry:\n";
-    cout << "1. Gra z botem\n";
-    cout << "2. Gra z drugim graczem\n";
-    cout << "3. Gra Turniejowa (z BOT'ami)\n";
-    cout << "Wybierz opcję (1,2 lub 3): ";
+  int tryb = 0;
+  do{
+    cout << "Witaj, wybierz tryb gry:" << "\n";
+    cout << "1. Gra z botem" << "\n";
+    cout << "2. Gra z drugim graczem" << "\n";
+    cout << "3. Gra Turniejowa (z BOT'ami)" << "\n";
+    cout << "Wybierz opcję (1,2 lub 3): " << "\n";
     cin >> tryb;
   } while ((tryb != 1) && (tryb != 2) && (tryb != 3));
-  if (tryb == 1 || tryb == 3) {
-    // Gra z botem
-    if(tryb == 1){
-      cout << "Wybrałeś gre z botem, Udanej rozgrywki!";     
-      while (stillPlaying == true) {
+	// Gra z botem(zwykła)
+  if(tryb == 1){
+    cout << "Wybrałeś gre z botem, Udanej rozgrywki!";     
+    while (stillPlaying == true){
       gameWithBot();
-      } // koniec while
     }
-    if(tryb == 3){
-      cout << "Wybrałeś gre z Turniejową, Powodzenia!";
-      while (stillPlaying == true)
-      {
-        gameWithBot();
-
-      }
-
-
+  }
+	// Gra z botem(tryb turniejowy)
+  else if(tryb == 3){
+    cout << "Wybrałeś gre Turniejową, Powodzenia!";
+    while (stillPlaying == true){
+      gameWithBot();
     }
-  } else {
-    // Gra z 2 graczem
+  }
+  // Gra z 2 graczem
+  else if(tryb == 2){
     cout << "Wybrałeś gre z 2 graczem";
     while (stillPlaying == true) {
       clearScreen();
