@@ -8,7 +8,7 @@ bool getPointForG1 = false, getPointForG2 = false, stillPlaying = true,
      withoutPoints = false, endOfTheGem = false, gemForG1 = false,
      gemForG2 = false, isAut = false;
 int pointsG1 = 0, pointsG2 = 0, gemsG1 = 0, gemsG2 = 0, fieldAtack = 0,
-    DefRand = 0, AtkRand = 0,tryb = 0,numberOfPlayedMatches = 0;
+    DefRand = 0, AtkRand = 0,tryb = 0,numberOfPlayedMatches = 1;
 int congrats = rand() % 4;
  string wygrana[] = {"Fantastyczny sukces, gratulacje!",
                       "Wspaniałe zwycięstwo, gratulacje!",
@@ -182,7 +182,13 @@ public:
     return result;
   }
 };
+void clearScreen(){
+  cout << "\033[2J\033[1;1H";
+}
 void displayGrid() {
+  if(tryb == 2){
+      clearScreen();
+  }
   cout << endl
        << "        pole przeciwnika"
        << "\n";
@@ -282,9 +288,7 @@ void defend(int field) {
     break;
   }
 }
-void clearScreen(){
-  cout << "\033[2J\033[1;1H";
-}
+
 void gameWithBot(){
     whoGetThePoint wGTP;
       endOfTheGem = false;
