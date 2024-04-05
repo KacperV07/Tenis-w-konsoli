@@ -301,7 +301,7 @@ void gameWithBot(){
       AtkRand = rand() % 6 + 1;
       wGTP.propabilityOfAut(AtkRand);
       if (isOut == false) {
-        cout << endl << "Twój Przeciwnik zaatakował pole:  " << AtkRand;
+        cout << endl << "Twój Przeciwnik zaatakował pole: " << AtkRand << " ";
       } else {
         AtkRand = 0;
       }
